@@ -56,11 +56,12 @@ def ineedhelp(user_id):
         tgid = message.from_user.id
         execl1 = f'{tgid}'
         execl2 = f'{message.text}'
-        print(f"INSERT INTO articles VALUES ('{execl1},{execl2},1')")
         c.execute(f"INSERT INTO articles VALUES ('{execl1},{execl2},1')")
         bot.send_message(user_id,"Мы получили ваш запрос!")
         bot.send_message(user_id,"Список ваших заявок: " )
-        bot.send_message(user_id,c.execute(f"SELECT * FROM articles WHERE id={execl1} ")[1])
+        c.execute(f"SELECT * FROM articles WHERE id={execl1}")
+        print(c.fetchall())
+        bot.send_message(user_id,c.fetchall())
         aftermenu(user_id)
         db.commit()
         return
